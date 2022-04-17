@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 
 def nameFile(instance, filename):
-    return '/'.join(['images', str(instance.title), filename])
+    return 'post/{filename}'.format(filename=filename)
 
 
 SOTRIE_CHOICES = (
