@@ -16,6 +16,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ArticleSerializer(serializers.ModelSerializer):
     title_slug = serializers.SerializerMethodField()
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     def get_title_slug(self, instance):
         return slugify(instance.title)

@@ -1,5 +1,6 @@
 from itertools import permutations
 from django.shortcuts import render
+from rest_framework.pagination import LimitOffsetPagination
 from .models import Category, Article
 from .serializers import CategorySerializer, ArticleSerializer
 from rest_framework import viewsets
@@ -25,6 +26,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ArticleList(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    pagination_class = LimitOffsetPagination
     filterset_fields = ['category', 'storie_positions']
     search_fields = ['$title', '$description']
 

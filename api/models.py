@@ -8,6 +8,11 @@ from django.contrib.auth.models import User
 
 
 def nameFile(instance, filename):
+    ext = filename.split('.')[-1]
+    if instance.title:
+        filename = '{}.{}'.format(instance.title, ext)
+    else:
+        filename = filename
     return 'post/{filename}'.format(filename=filename)
 
 
@@ -73,7 +78,7 @@ class Article(models.Model):
                               null=True,
                               blank=True)
     image = models.ImageField(
-        upload_to=nameFile, max_length=250, blank=True, null=True)
+        upload_to=nameFile, max_length=350, blank=True, null=True)
     title = models.CharField(max_length=250)
     description = models.TextField()
     storie = RichTextField(blank=True, null=True)
