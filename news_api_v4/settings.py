@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'mptt',
     'rest_framework',
+    'rest_registration',
     'corsheaders',
     'django_filters',
     'rest_framework_simplejwt.token_blacklist',
@@ -59,6 +60,12 @@ REST_FRAMEWORK = {
         # 'rest_framework.filters.OrderingFilter'
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+}
+
+REST_REGISTRATION = {
+    'REGISTER_VERIFICATION_ENABLED': False,
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+    'RESET_PASSWORD_VERIFICATION_ENABLED': False,
 }
 
 MIDDLEWARE = [
