@@ -75,13 +75,12 @@ class Article(models.Model):
     )
     category = TreeForeignKey('Category',
                               on_delete=models.CASCADE,
-                              null=True,
-                              blank=True)
+                              blank=False)
     image = models.ImageField(
         upload_to=nameFile, max_length=350, blank=True, null=True)
     title = models.CharField(max_length=250)
     description = models.TextField()
-    storie = RichTextField(blank=True, null=True)
+    storie = RichTextField(blank=False)
     published = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='blog_posts')
