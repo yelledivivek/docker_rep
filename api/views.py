@@ -1,5 +1,3 @@
-from itertools import permutations
-import django_filters
 from django.shortcuts import render
 from rest_framework.pagination import LimitOffsetPagination
 from .models import Category, Article
@@ -27,19 +25,18 @@ class StaffPermissio(BasePermission):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    filterset_fields = ['parent']
+
+    def get_queryset(self):
+        queryset = Category.objects.filter(level=0)
+        return queryset
 
     
-class CategoryFilter(django_filters.FilterSet):
-    class Meta:
-        model = Category
-        fields = ['parent']
-# class CategoryFilter(viewsets.ReadOnlyModelViewSet):
-#     queryset = Category.objects.all()
-#     serializer_class = CategorySerializer
-#     filterset_fields = ['parent']
+# class CategoryFilter(django_filters.FilterSet):
+#     class Meta:
+#         model = Category
+#         fields = ['parent']
+
 
 class ArticleList(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.all()
@@ -48,13 +45,13 @@ class ArticleList(viewsets.ReadOnlyModelViewSet):
     filterset_fields = ['category', 'storie_positions']
     search_fields = ['$title', '$description']
 
-    # def filter_queryset(self, queryset):
-    #     queryset = super().filter_queryset(queryset)
-    #     parent = self.request.query_params.get('parent', None)
+    def filter_queryset(self, queryset):
+        queryset = super().filter_queryset(queryset)
+        parent = self.request.query_params.get('parent', None)
 
-    #     if parent is not None:
-    #         queryset = queryset.filter(category__parent=parent)
-    #     return super().filter_queryset(queryset)
+        if parent is not None:
+            queryset = queryset.filter(category__parent=parent)
+        return super().filter_queryset(queryset)
 
 
 class ArticleCreate(viewsets.ModelViewSet, StaffPermissio):
